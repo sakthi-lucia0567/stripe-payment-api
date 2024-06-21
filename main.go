@@ -26,9 +26,15 @@ func main() {
 	v1Router := chi.NewRouter()
 
 	v1Router.Get("/healthcheck", handlerReadiness)
+
 	v1Router.Get("/err", handlerErr)
 
-	router.Mount("/v1", v1Router)
+	v1Router.Post("/create_intent", handlerCreateIntent)
+	v1Router.Post("/capture_intent/{id}/capture", handlerCaptureIntent)
+	v1Router.Post("/create_refund/{id}", handlerCreateRefund)
+	v1Router.Get("/get_intents", handlerGetIntents)
+
+	router.Mount("/api/v1", v1Router)
 
 	srv := &http.Server{
 		Handler: router,
